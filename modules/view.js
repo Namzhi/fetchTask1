@@ -1,62 +1,50 @@
 export class View {
     constructor() {
-        this.app = document.querySelector('.app');
-        // this.title = this.createElement('h1', 'title');
-        // this.title.textContent = "Github Search Repositories"
+        this.app = document.querySelector(".app")
 
-        this.searchLine = this.createElement('div', 'search-line')
-        this.searchInput = this.createElement('input', 'search-input')
-        // this.searchCounter = this.createElement('span', 'counter')
-        this.searchLine.append(this.searchInput)
-        // this.searchLine.append(this.searchCounter)
+        this.search = this.createElement("div", "search", "search--position")
+        this.searchInput = this.createElement("input", "search__input")
+        this.search.append(this.searchInput)
 
-        this.usersWrapper = this.createElement('div', 'users-wrappers')
-        this.usersList = this.createElement('ul', 'users')
-        this.usersWrapper.append(this.usersList)
-        this.searchLine.append(this.usersWrapper)
-        // this.main = this.createElement('div', 'main')
-        // this.main.append(this.usersWrapper)
-        // this.button = this.createElement("button", "button")
-        
-        this.sel = this.createElement('ul', 'sel')
-        this.app.append(this.sel)
-        // this.app.append(this.title)
-        this.app.append(this.searchLine)
-        // this.app.append(this.searchInput)
-        // this.app.append(this.main)
-        // this.app.append(this.usersWrapper)
+        this.repWrapper = this.createElement("div", "rep-wrapper")
+        this.rep = this.createElement("ul", "rep", "rep--areas")
+        this.repWrapper.append(this.rep)
+        this.search.append(this.repWrapper)
+
+        this.selectedList = this.createElement(
+            "ul",
+            "selected-list",
+            "selected-list--position",
+            "rep--areas"
+        )
+        this.app.append(this.selectedList)
+        this.app.append(this.search)
     }
-    createElement(elementTag, elementClass) {
-        const element = document.createElement(elementTag);
-        if(elementClass) {
-            element.classList.add(elementClass);
+    createElement(elementTag, ...elementClass) {
+        const element = document.createElement(elementTag)
+        if (elementClass.length !== 0) {
+            elementClass.forEach((cl) => element.classList.add(cl))
         }
-        return element;
+        return element
     }
-    createUser(userData) {
-        const userElement = this.createElement('li', 'user-prev');
-        userElement.innerHTML = `<span class='user-name'>${userData.name}</span>`
-        this.usersList.append(userElement);
-        // const userEl = this.createElement('li', 'user-pr');
-        //     userEl.innerHTML = `<span class='user-prev>'${userData.name}</span>
-        //                             <span class="user-prev-owner">${userData.owner.login}</span>
-        //                             <span class="user-prev-count">${userData.stargazers_count}</span>
-        //                             `
-                            }
-    saveData(userData) {
-        const userEl = this.createElement('li', 'item');
-        userEl.innerHTML = `<span class='user-na'>Name: ${userData.name}</span><br>
-                            <span class="user-prev-owner">Owner: ${userData.owner.login}</span><br>
-                            <span class="user-prev-count">Stars: ${userData.stargazers_count}</span>
+    createRep(repData) {
+        const repItem = this.createElement("li", "rep__item")
+        repItem.innerHTML = `<span class='rep__name'>${repData.name}</span>`
+        this.rep.append(repItem)
+    }
+    saveData(repData) {
+        const selectedListItem = this.createElement("li", "selected-list__item")
+        selectedListItem.innerHTML = `<span class='rep-na'>Name: ${repData.name}</span><br>
+                            <span class="rep__owner">Owner: ${repData.owner.login}</span><br>
+                            <span class="rep__stars">Stars: ${repData.stargazers_count}</span>
                                
                                 `
-        let button = this.createElement("div", "button")
-        
-        userEl.append(button)
-        button.addEventListener('click', function() {
-            console.log(123)
+        let button = this.createElement("div", "selected-list__button")
+
+        selectedListItem.append(button)
+        button.addEventListener("click", function () {
             button.parentNode.remove()
         })
-        this.sel.append(userEl);
+        this.selectedList.append(selectedListItem)
     }
 }
